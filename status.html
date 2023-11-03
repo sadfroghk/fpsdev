@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GET Request Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+$(document).ready(function() {
+
+
+  var randomString = Math.random().toString(36).substr(2, 10);
+
+  $.get('https://xcdn-udmator.ude.hk/webhook/a97bd962-76b1-4a6a-b724-2027836f3749?s' + randomString , function(response) {
+    var data = response;
+    
+    // Sort the data by ID in descending order
+    data.sort(function(a, b) {
+      return b.json.id - a.json.id;
+    });
+    
+    var table = $('<table>');
+    var tableHeader = $('<tr>').append(
+      '<th>Transaction ID</th>',
+      '<th>Account</th>',
+      '<th>Amount</th>',
+      '<th>Status</th>',
+      '<th>Created At</th>',
+      '<th>Updated At</th>'
+    );
+    table.append(tableHeader);
+
+    data.forEach(function(item) {
+      var email = item.json.email;
+      var account = item.json.account;
+      var id = item.json.id;
+      var accountId = item.json.account_id;
+      var amount = item.json.amount;
+      var status = item.json.status;
+      var createdAt = item.json.created_at;
+      var updatedAt = item.json.updated_at;
+      
+      // Format the timestamps to GMT+8 timezone
+      createdAt = new Date(createdAt).toLocaleString('en-US', { timeZone: 'Asia/Hong_Kong' });
+      updatedAt = new Date(updatedAt).toLocaleString('en-US', { timeZone: 'Asia/Hong_Kong' });
+
+      var statusText = '';
+      var statusColor = '';
+      if (status === 0) {
+        statusText = 'Pending';
+        statusColor = 'yellow';
+      } else if (status === 1) {
+        statusText = 'Completed';
+        statusColor = 'green';
+      }
+
+      var tableRow = $('<tr>').append(
+        '<td>' + id + '</td>',
+        '<td>' + account + '</td>',
+        '<td>' + amount + '</td>',
+        '<td style="background-color: ' + statusColor + ';">' + statusText + '</td>',
+        '<td>' + createdAt + '</td>',
+        '<td>' + updatedAt + '</td>'
+      );
+      table.append(tableRow);
+    });
+    table.css('border-collapse', 'collapse'); // Collapse table borders
+    table.css('width', '100%'); // Set table width to 100%
+    table.find('th, td').css('border', '1px solid black'); // Set borders for table cells
+
+
+
+    $('#response').append(table);
+  });
+});
+</script>
+
+</head>
+<body>
+    <h1>GET Request Example</h1>
+    <div id="response"></div>
+</body>
+</html>
