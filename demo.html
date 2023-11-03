@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    iframe {
+      border: none;
+    }
+    .top-pane, .bottom-pane {
+      width: 100%;
+      height: 50vh;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-pane">
+    <iframe src="qr.html" width="100%" height="100%"></iframe>
+  </div>
+  <div class="bottom-pane">
+    <iframe src="status.html" width="100%" height="100%" id="status-iframe"></iframe>
+  </div>
+
+  <script>
+    // Refresh the status.html iframe every 10 seconds
+    setInterval(function() {
+      var statusIframe = document.getElementById('status-iframe');
+      statusIframe.src = statusIframe.src;
+    }, 10000);
+  </script>
+</body>
+</html>
