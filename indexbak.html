@@ -25,17 +25,7 @@
 
             function generateQRCode(data) {
                 var qrCodeUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=256x256&chl=' + encodeURIComponent(data);
-                if (qrCodeUrl.includes("hk.com.hkicl")){
-			$('#qrcode').attr('src', qrCodeUrl);
-			$('#qrcode').show();
-		}
-		else{
-			$('#qrcode').hide();
-			$('#response').show();
-                        $('#response').text('No avaliable FPS account, please try again later!').css('color', 'red');
-
-		}
-
+                $('#qrcode').attr('src', qrCodeUrl);
             }
         });
     </script>
@@ -47,8 +37,7 @@
         <input type="number" id="amount" name="amount" required>
         <button type="submit">Submit</button>
     </form>
-    <div id="response"  style="display: none;"></div>
-    <img id="qrcode" alt="QR Code" style="display: none;">
-
+    <div id="response"></div>
+    <img id="qrcode" alt="QR Code">
 </body>
 </html>
