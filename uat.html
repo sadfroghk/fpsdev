@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Amount</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('form').submit(function(event) {
+                event.preventDefault();
+                var amount = $('#amount').val();
+
+                $.ajax({
+                    url: 'https://api.ezpay4u.com/webhook/sdhfuidhieh92h382b2iibidf9238gau',
+                    type: 'POST',
+        	    data: $.param({ amount: amount,merchant_id: "656440bed3bf8f44d10b69a4", type: "fps" }),
+		    dataType: 'text',
+                    success: function(response) {
+                        $('#response').text(response);
+                        generateQRCode(response);
+                    },
+                    error: function(xhr, status, error) {
+                        $('#response').text('An error occurred: ' + error);
+                    }
+                });
+            });
+
+            function generateQRCode(data) {
+                var qrCodeUrl = 'https://chart.googleapis.com/chart?cht=qr&chs=500x500&chl=' + encodeURIComponent(data);
+                if (qrCodeUrl.includes("hk.com.hkicl")){
+			$('#qrcode').attr('src', qrCodeUrl);
+			$('#qrcode').show();
+		}
+		else{
+			$('#qrcode').hide();
+			$('#response').show();
+                        $('#response').text('No avaliable FPS account, please try again later!').css('color', 'red');
+
+		}
+
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Submit Amount</h1>
+    <form>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="response"  style="display: none;"></div>
+    <img id="qrcode" alt="QR Code" style="display: none;">
+
+</body>
+</html>
